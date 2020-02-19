@@ -8,21 +8,29 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Peliculas en Cine'),
-          backgroundColor: Colors.black,
-          actions: <Widget>[
-            IconButton(icon: Icon(Icons.search), onPressed: () {}),
-          ],
-        ),
-        body:
+      backgroundColor: Colors.black26,
+      appBar: AppBar(
+        title: Text('Peliculas en Cine'),
+        backgroundColor: Colors.blueGrey,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search), 
+            onPressed: () {}
+          ),
+        ],
+      ),
+      body:
             //"SafeArea" Widget que respeta la muesca del celular
-            Container(
-                child: Column(
-          children: <Widget>[
-            _swiperTarjeta(),
-          ],
-        )));
+        Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              _swiperTarjeta(),
+              _footer(context),
+            ],
+          )
+        )
+    );
   }
 
   Widget _swiperTarjeta() {
@@ -34,12 +42,29 @@ class HomePage extends StatelessWidget {
         } else {
           return Container(
             height: 400.0,
-            child: Center(
-              child: CircularProgressIndicator()
-            ),
+            child: Center(child: CircularProgressIndicator()),
           );
         }
       },
+    );
+  }
+
+  Widget _footer(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      child: Column(
+        children: <Widget>[
+          Text('Populares', style: Theme.of(context).textTheme.subhead),
+          FutureBuilder(
+            future: peliculasProviders.getPopulares(),
+            builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
+              snapshot.data.forEach((p) => print(p.title)
+            );
+              return Container();
+            },
+          ),
+        ],
+      ),
     );
   }
 }
