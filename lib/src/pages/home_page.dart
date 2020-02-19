@@ -8,6 +8,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
+    peliculasProviders.getPopulares();
+
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -19,16 +22,14 @@ class HomePage extends StatelessWidget {
         ),
         body:
             //"SafeArea" Widget que respeta la muesca del celular
-          Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                _swiperTarjeta(),
-                _footer(context),
-              ],
-            )        
-          )
-    );
+            Container(
+                child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            _swiperTarjeta(),
+            _footer(context),
+          ],
+        )));
   }
 
   Widget _swiperTarjeta() {
@@ -54,11 +55,13 @@ class HomePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            padding: EdgeInsets.only(left:20.0, bottom: 10.0, top: 15.0),
-            child: Text('Populares', style: Theme.of(context).textTheme.subhead)
-          ),
-          FutureBuilder(
-            future: peliculasProviders.getPopulares(),
+              padding: EdgeInsets.only(left: 20.0, bottom: 10.0, top: 15.0),
+              child: Text('Populares',
+                  style: Theme.of(context).textTheme.subhead)),
+
+          //AQUI ESTA EL STREAM
+          StreamBuilder(
+            stream: peliculasProviders.popularesStream,
             builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
               if (snapshot.hasData) {
                 return MovieHorizontal(peliculas: snapshot.data);
