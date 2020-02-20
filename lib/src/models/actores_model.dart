@@ -47,7 +47,7 @@ class Actor {
 
   getFoto() {
     if (profilePath == null) {
-      return 'https://www.pinclipart.com/picdir/big/203-2030760_doug-petereson-perfil-whatsapp-sin-recortar-clipart.png';
+      return 'https://pngimage.net/wp-content/uploads/2018/06/imagen-no-disponible-png-4.png';
     } else {
       return 'https://image.tmdb.org/t/p/w500/$profilePath';
     }

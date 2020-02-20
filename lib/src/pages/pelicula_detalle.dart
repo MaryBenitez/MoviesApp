@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:peliculas/src/models/actores_model.dart';
 import 'package:peliculas/src/models/pelicula_model.dart';
+import 'package:peliculas/src/providers/peliculas_provider.dart';
 
 class PeliculaDetalle extends StatelessWidget {
   @override
@@ -10,12 +12,10 @@ class PeliculaDetalle extends StatelessWidget {
       backgroundColor: Colors.black,
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.black, Colors.blueGrey],
-            begin: FractionalOffset.bottomRight,
-            end: FractionalOffset.topRight
-          )
-        ),
+            gradient: LinearGradient(
+                colors: [Colors.black, Colors.blueGrey],
+                begin: FractionalOffset.bottomRight,
+                end: FractionalOffset.topRight)),
         child: CustomScrollView(
           slivers: <Widget>[
             _crearAppBar(pelicula),
@@ -29,10 +29,7 @@ class PeliculaDetalle extends StatelessWidget {
                 _descripcion(pelicula),
                 _descripcion(pelicula),
                 _descripcion(pelicula),
-                _descripcion(pelicula),
-                _descripcion(pelicula),
-                _descripcion(pelicula),
-                _descripcion(pelicula),
+                _crearCasting(pelicula),
               ]),
             ),
           ],
@@ -102,12 +99,18 @@ class PeliculaDetalle extends StatelessWidget {
                 Text(
                   pelicula.title,
                   //style: TextStyle(color: Colors.white),
-                  style: Theme.of(context).textTheme.title.merge(TextStyle(color: Colors.white)),
+                  style: Theme.of(context)
+                      .textTheme
+                      .title
+                      .merge(TextStyle(color: Colors.white)),
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
                   pelicula.originalTitle,
-                  style: Theme.of(context).textTheme.subhead.merge(TextStyle(color: Colors.white)),
+                  style: Theme.of(context)
+                      .textTheme
+                      .subhead
+                      .merge(TextStyle(color: Colors.white)),
                   overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(height: 10.0),
@@ -117,7 +120,10 @@ class PeliculaDetalle extends StatelessWidget {
                     SizedBox(width: 8.0),
                     Text(
                       pelicula.voteAverage.toString(),
-                      style: Theme.of(context).textTheme.subhead.merge(TextStyle(color: Colors.white)),
+                      style: Theme.of(context)
+                          .textTheme
+                          .subhead
+                          .merge(TextStyle(color: Colors.white)),
                     )
                   ],
                 )
@@ -131,14 +137,67 @@ class PeliculaDetalle extends StatelessWidget {
 
   Widget _descripcion(Pelicula pelicula) {
     return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 10.0,
-        vertical: 20.0
-      ),
+      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
       child: Text(
         pelicula.overview,
         style: TextStyle(color: Colors.white),
         textAlign: TextAlign.justify,
+      ),
+    );
+  }
+
+  _crearCasting(Pelicula pelicula) {
+    final peliProvider = new PeliculasProviders();
+
+    return FutureBuilder(
+        future: peliProvider.getCast(pelicula.id.toString()),
+        builder: (context, AsyncSnapshot<List> snapshot) {
+          if (snapshot.hasData) {
+            return _crearActoresPageView(snapshot.data);
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        });
+  }
+
+  Widget _crearActoresPageView(List<Actor> actores) {
+    return SizedBox(
+      height: 200.0,
+      child: PageView.builder(
+        pageSnapping: false,
+        controller: PageController(viewportFraction: 0.3, initialPage: 1),
+        itemCount: actores.length,
+        itemBuilder: (context, i) => _actorTarjeta(actores[i]),
+          /*return Text(
+            actores[i].name,
+            style: TextStyle(color: Colors.white),
+          );*/
+        
+      ),
+    );
+  }
+
+  Widget _actorTarjeta(Actor actor) {
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20.0),
+            child: FadeInImage(
+              image: NetworkImage(actor.getFoto()),
+              placeholder : AssetImage('assets/img/no-image.jpg'),
+              height: 150.0,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Text(
+            actor.name,
+            style: TextStyle(color: Colors.white),
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+          )
+        ],
       ),
     );
   }
