@@ -71,4 +71,12 @@ class Pelicula {
       return 'https://image.tmdb.org/t/p/w500/$posterPath';
     }
   }
+
+  getBackgroundImg() {
+    if (posterPath == null) {
+      return 'https://agroplanet.cl/wp-content/themes/agroplanet-landing/images/product-default.jpg';
+    } else {
+      return 'https://image.tmdb.org/t/p/w500/$backdropPath';
+    }
+  }
 }
