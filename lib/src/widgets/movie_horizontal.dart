@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:peliculas/src/models/pelicula_model.dart';
 
 class MovieHorizontal extends StatelessWidget {
@@ -42,13 +43,18 @@ class MovieHorizontal extends StatelessWidget {
         margin: EdgeInsets.only(right: 15.0),
         child: Column(
           children: <Widget>[
-            ClipRRect(
-              borderRadius: BorderRadius.circular(20.0),
-              child: FadeInImage(
-                image: NetworkImage(pelicula.getPosterImg()),
-                placeholder: AssetImage('assets/img/no-image.jpg'),
-                fit: BoxFit.cover,
-                height: 155.0,
+            Hero(
+              tag: pelicula
+                  .id, //Id unico que debe identificar el elemento a animar
+              //tanto aqui como en la otra vista
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: FadeInImage(
+                  image: NetworkImage(pelicula.getPosterImg()),
+                  placeholder: AssetImage('assets/img/no-image.jpg'),
+                  fit: BoxFit.cover,
+                  height: 155.0,
+                ),
               ),
             ),
             SizedBox(height: 5.0),
@@ -64,6 +70,7 @@ class MovieHorizontal extends StatelessWidget {
       child: tarjeta,
       onTap: () {
         //print('NOMBRE DE LA PELICULA: ${pelicula.title}');
+        timeDilation = 2;
         Navigator.pushNamed(context, 'detalle', arguments: pelicula);
       },
     );
