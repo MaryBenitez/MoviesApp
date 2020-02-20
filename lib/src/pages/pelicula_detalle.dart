@@ -7,10 +7,36 @@ class PeliculaDetalle extends StatelessWidget {
     final Pelicula pelicula = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
-      body: CustomScrollView(
-        slivers: <Widget>[
-          _crearAppBar(pelicula),
-        ],
+      backgroundColor: Colors.black,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.black, Colors.blueGrey],
+            begin: FractionalOffset.bottomRight,
+            end: FractionalOffset.topRight
+          )
+        ),
+        child: CustomScrollView(
+          slivers: <Widget>[
+            _crearAppBar(pelicula),
+            SliverList(
+              delegate: SliverChildListDelegate([
+                SizedBox(
+                  height: 10.0,
+                ),
+                _posterTitulo(context, pelicula),
+                _descripcion(pelicula),
+                _descripcion(pelicula),
+                _descripcion(pelicula),
+                _descripcion(pelicula),
+                _descripcion(pelicula),
+                _descripcion(pelicula),
+                _descripcion(pelicula),
+                _descripcion(pelicula),
+              ]),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -18,7 +44,7 @@ class PeliculaDetalle extends StatelessWidget {
   Widget _crearAppBar(Pelicula pelicula) {
     return SliverAppBar(
       elevation: 2.0,
-      backgroundColor: Colors.blueGrey,
+      backgroundColor: Colors.grey,
       expandedHeight: 200.0,
       floating: false,
       pinned: true,
@@ -54,5 +80,66 @@ class PeliculaDetalle extends StatelessWidget {
         textAlign: TextAlign.center,
       );
     }
+  }
+
+  Widget _posterTitulo(BuildContext context, Pelicula pelicula) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      child: Row(
+        children: <Widget>[
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20.0),
+            child: Image(
+              image: NetworkImage(pelicula.getPosterImg()),
+              height: 150.0,
+            ),
+          ),
+          SizedBox(width: 20.0),
+          Flexible(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  pelicula.title,
+                  //style: TextStyle(color: Colors.white),
+                  style: Theme.of(context).textTheme.title.merge(TextStyle(color: Colors.white)),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  pelicula.originalTitle,
+                  style: Theme.of(context).textTheme.subhead.merge(TextStyle(color: Colors.white)),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(height: 10.0),
+                Row(
+                  children: <Widget>[
+                    Icon(Icons.star_border, color: Colors.white),
+                    SizedBox(width: 8.0),
+                    Text(
+                      pelicula.voteAverage.toString(),
+                      style: Theme.of(context).textTheme.subhead.merge(TextStyle(color: Colors.white)),
+                    )
+                  ],
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _descripcion(Pelicula pelicula) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: 10.0,
+        vertical: 20.0
+      ),
+      child: Text(
+        pelicula.overview,
+        style: TextStyle(color: Colors.white),
+        textAlign: TextAlign.justify,
+      ),
+    );
   }
 }
