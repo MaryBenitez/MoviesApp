@@ -39,13 +39,19 @@ class MovieHorizontal extends StatelessWidget {
   }
 
   Widget _tarjeta(BuildContext context, Pelicula pelicula) {
+
+        //id unico, creado especialmente por si la pelicula este en
+    //el mismo contenedor
+    //--**Creado en el modelo pelicula
+    pelicula.uniqueId = '${pelicula.id}-poster';
+
     final tarjeta = Container(
         margin: EdgeInsets.only(right: 15.0),
         child: Column(
           children: <Widget>[
             Hero(
               tag: pelicula
-                  .id, //Id unico que debe identificar el elemento a animar
+                  .uniqueId, //Id unico que debe identificar el elemento a animar
               //tanto aqui como en la otra vista
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20.0),

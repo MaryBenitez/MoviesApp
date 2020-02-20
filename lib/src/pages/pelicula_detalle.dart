@@ -85,8 +85,8 @@ class PeliculaDetalle extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Hero(
-            tag: pelicula.id, //Id unico que debe identificar el elemento a animar
-                              //tanto aqui como en la otra vista
+            tag: pelicula.uniqueId, //Id unico que debe identificar el elemento a animar
+                                    //tanto aqui como en la otra vista
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20.0),
               child: Image(

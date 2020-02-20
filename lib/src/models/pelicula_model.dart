@@ -15,6 +15,9 @@ class Peliculas {
 }
 
 class Pelicula {
+  
+  String uniqueId;
+
   double popularity;
   int voteCount;
   bool video;
@@ -48,20 +51,20 @@ class Pelicula {
   });
 
   Pelicula.fromJsonMap(Map<String, dynamic> json) {
-    popularity         = json['popularity'] / 1;
-    voteCount          = json['vote_count'];
-    video              = json['video'];
-    posterPath         = json['poster_path'];
-    id                 = json['id'];
-    adult              = json['adult'];
-    backdropPath       = json['backdrop_path'];
-    originalLanguage   = json['original_language'];
-    originalTitle      = json['original_title'];
-    genreIds           = json['genre_ids'].cast<int>();
-    title              = json['title'];
-    voteAverage        = json['vote_average'] / 1;
-    overview           = json['overview'];
-    releaseDate        = json['release_date'];
+    popularity = json['popularity'] / 1;
+    voteCount = json['vote_count'];
+    video = json['video'];
+    posterPath = json['poster_path'];
+    id = json['id'];
+    adult = json['adult'];
+    backdropPath = json['backdrop_path'];
+    originalLanguage = json['original_language'];
+    originalTitle = json['original_title'];
+    genreIds = json['genre_ids'].cast<int>();
+    title = json['title'];
+    voteAverage = json['vote_average'] / 1;
+    overview = json['overview'];
+    releaseDate = json['release_date'];
   }
 
   getPosterImg() {
