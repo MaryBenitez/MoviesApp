@@ -21,15 +21,17 @@ class HomePage extends StatelessWidget {
           ],
         ),
         body:
-            //"SafeArea" Widget que respeta la muesca del celular
-            Container(
-                child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            _swiperTarjeta(),
-            _footer(context),
-          ],
-        )));
+          //"SafeArea" Widget que respeta la muesca del celular
+          Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                _swiperTarjeta(),
+                _footer(context),
+              ],
+              )
+          )
+      );
   }
 
   Widget _swiperTarjeta() {

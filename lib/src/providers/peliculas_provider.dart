@@ -9,6 +9,7 @@ class PeliculasProviders {
   String _language = 'es-ES';
 
   int _popularesPage = 0;
+  bool _cargando = false;
 
   //Stream: Corrientes de datos
   List<Pelicula> _populares = new List();
@@ -19,10 +20,12 @@ class PeliculasProviders {
           Pelicula>>.broadcast(); //Si no se pone el broadcast funcionaria solo lo escucharia un widget
 
   //Introduciendo informacion
-  Function(List<Pelicula>) get popularesSink => _popularesStreamController.sink.add;
+  Function(List<Pelicula>) get popularesSink =>
+      _popularesStreamController.sink.add;
 
   //Saliendo la informacion
-  Stream<List<Pelicula>> get popularesStream => _popularesStreamController.stream;
+  Stream<List<Pelicula>> get popularesStream =>
+      _popularesStreamController.stream;
 
   //Funcion para cerrar el Stream
   void disposeStreams() {
@@ -48,7 +51,15 @@ class PeliculasProviders {
   }
 
   Future<List<Pelicula>> getPopulares() async {
+    if (_cargando) {
+      return [];
+    } else {
+      _cargando = true;
+    }
+
     _popularesPage++;
+
+    //print('Cargando siguientes...');
 
     final url = Uri.https(_url, '3/movie/popular', {
       'api_key': _apikey,
@@ -63,6 +74,7 @@ class PeliculasProviders {
     //Utilizando sink para colocarlo al inicio del Stream de datos
     popularesSink(_populares);
 
+    _cargando = false;
     return resp;
   }
 }
