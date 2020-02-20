@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:peliculas/src/providers/peliculas_provider.dart';
+import 'package:peliculas/src/search/search_delegate.dart';
 import 'package:peliculas/src/widgets/card_swiper_widget.dart';
 import 'package:peliculas/src/widgets/movie_horizontal.dart';
 
@@ -8,7 +9,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     peliculasProviders.getPopulares();
 
     return Scaffold(
@@ -17,21 +17,26 @@ class HomePage extends StatelessWidget {
           title: Text('Peliculas en Cine'),
           backgroundColor: Colors.grey,
           actions: <Widget>[
-            IconButton(icon: Icon(Icons.search), onPressed: () {}),
+            IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  showSearch(
+                    context: context, 
+                    delegate: DataSearch(),
+                  );
+                }),
           ],
         ),
         body:
-          //"SafeArea" Widget que respeta la muesca del celular
-          Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                _swiperTarjeta(),
-                _footer(context),
-              ],
-              )
-          )
-      );
+            //"SafeArea" Widget que respeta la muesca del celular
+            Container(
+                child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            _swiperTarjeta(),
+            _footer(context),
+          ],
+        )));
   }
 
   Widget _swiperTarjeta() {
@@ -57,11 +62,11 @@ class HomePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            padding: EdgeInsets.only(left: 20.0, bottom: 10.0, top: 15.0),
-            child: Text('Populares',
-              style: TextStyle(color: Colors.white),
-            )
-          ),
+              padding: EdgeInsets.only(left: 20.0, bottom: 10.0, top: 15.0),
+              child: Text(
+                'Populares',
+                style: TextStyle(color: Colors.white),
+              )),
 
           //AQUI ESTA EL STREAM
           StreamBuilder(
