@@ -15,4 +15,4 @@ El usuario es capaz de:
 5. Observar la puntuación otorgada a la película.
 6. Buscar películas por nombre.
 
-##APP FINALIZADA
+***APP FINALIZADA***
